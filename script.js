@@ -104,7 +104,12 @@ function showSuggestions(results, inputVal) {
   if (inputVal) {
   results.slice(0, 5).forEach((result) => {
     const li = document.createElement("li");
-    li.textContent = result;
+	const escapedInputVal = inputVal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+	// Create a RegExp to find matching parts, 'gi' for global and case-insensitive search
+	const regex = new RegExp(`(${escapedInputVal})`, 'gi');
+	// Replace matching parts with a bold version
+	const formattedResult = result.replace(regex, '<strong>$1</strong>');
+	li.innerHTML = formattedResult;
     suggestions.appendChild(li);
 	suggestions.classList.add('has-suggestions');
   });}else{alert("No imput value")}
